@@ -17,7 +17,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 
 
-def qqmusic_crawler(date, target='song', cate=Region.cn, date_format='%Y%m%d', wait_time=5):
+def qqmusic_crawler(date, target='song', cate=Region.cn, date_format='%Y%m%d', wait_time=2):
     """
     --main mymusic webpage crawler--
     function parameters can be selected from the website
@@ -35,49 +35,58 @@ def qqmusic_crawler(date, target='song', cate=Region.cn, date_format='%Y%m%d', w
     driver.get(qqmusic_page)
     delay = wait_time
 
-    # can put this line into a loop to crawl page 1 to 4
-    driver.find_element_by_link_text('1').click()
-
-    for _ in range(100):
-        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    try:
-        myElem = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.CLASS_NAME, 'js_song')))
-        print("Page is ready!")
-    except TimeoutException:
-        print("Loading took too much time!")
-    raw_data = driver.page_source.encode('utf-8')
-    driver.quit()
-    print(len(raw_data))
-
-    soup = BeautifulSoup(raw_data, 'html.parser')
-    pattern_script = re.compile(r'require.resourceMap\((.*)\)')
-    pattern_url = re.compile(r'\"url\":\"(.*?)\",')
-    row_data = soup.find_all('li', attrs={'class': None})
-
+    # the loop that crawl page 1 to 4
+    # moved ranking here, so it's accessible by the file generating
     ranking = []
+    for pageNum in range (2,6,1):
 
-    print(len(row_data))
+        for _ in range(100):
+            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        try:
+            myElem = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.CLASS_NAME, 'js_song')))
+            print("Page is ready!")
+        except TimeoutException:
+            print("Loading took too much time!")
+        raw_data = driver.page_source.encode('utf-8')
 
-    for i in range(0, len(row_data)):
-        singers = row_data[i].find_all('a', attrs={'class': 'singer_name'})
-        songs = row_data[i].find_all('a', attrs={'class': 'js_song'})
-        all_singer = ""
-        for singer in singers:
-            all_singer += singer.text + '、'
-        ranking.append({'artist_name': all_singer, 'song_name': songs[0].text, 'album_name': ''})
+        # print(len(raw_data))
+
+        soup = BeautifulSoup(raw_data, 'html.parser')
+        pattern_script = re.compile(r'require.resourceMap\((.*)\)')
+        pattern_url = re.compile(r'\"url\":\"(.*?)\",')
+        row_data = soup.find_all('li', attrs={'class': None})
+
+        # ranking = []
+
+        print(len(row_data))
+
+        for i in range(0, len(row_data)):
+            singers = row_data[i].find_all('a', attrs={'class': 'singer_name'})
+            songs = row_data[i].find_all('a', attrs={'class': 'js_song'})
+            all_singer = ""
+            for singer in singers:
+                all_singer += singer.text + '、'
+            ranking.append({'artist_name': all_singer, 'song_name': songs[0].text, 'album_name': ''})
+
+        # click the next page
+        if pageNum < 5:
+            driver.find_element_by_link_text(str(pageNum)).click()
+        else: break
 
     # save the raw data to corresponding directory
     full_path = os.path.join('data', target, 'ranking_{}_{}.json'.format(cate.name, date.strftime('%Y-%m-%d')))
     with open(full_path, 'w') as outfile:
         json.dump(ranking, outfile, ensure_ascii=False)
-
+    driver.quit()
     return ranking
 
 
+
+
 if __name__ == "__main__":
-    # data crawled from 2013-12-31 week 1
-    start_date = datetime.datetime(2013, 12, 31)
-    end_date = datetime.datetime(2013, 12, 31)
+    # data crawled from 2013-1-1 week 1
+    start_date = datetime.datetime(2013, 1, 1)
+    end_date = datetime.datetime(2013, 2, 1)
     languages = [Region.cn]
     main_crawler(start_date, end_date, crawler=qqmusic_crawler, cate=languages,
                  data_sorting=True, force_crawl=True, get_raw_data=False, date_format='%Y%m%d')
