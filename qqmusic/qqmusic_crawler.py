@@ -38,7 +38,7 @@ def qqmusic_crawler(date, target='song', cate=Region.cn, date_format='%Y%m%d', w
     # the loop that crawl page 1 to 4
     # moved ranking here, so it's accessible by the file generating
     ranking = []
-    for pageNum in range (2,6,1):
+    for pageNum in range (1,5,1):
 
         for _ in range(100):
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -69,8 +69,8 @@ def qqmusic_crawler(date, target='song', cate=Region.cn, date_format='%Y%m%d', w
             ranking.append({'artist_name': all_singer, 'song_name': songs[0].text, 'album_name': ''})
 
         # click the next page
-        if pageNum < 5:
-            driver.find_element_by_link_text(str(pageNum)).click()
+        if pageNum < 4:
+            driver.find_element_by_link_text(str(pageNum + 1)).click()
         else: break
 
     # save the raw data to corresponding directory
