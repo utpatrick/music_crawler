@@ -44,11 +44,9 @@ def language_crawler(start_date, end_date, crawler, cate, top_n=30, force_crawl=
         safe_flag = False
         filename = 'ranking_{}_{}.json'.format(cate.name, this_date_str)
         full_path = os.path.join('data', target, filename)
-        print(full_path)
 
         # if json file exists, no need to crawl again, unless specified (force_crawl)
         if os.path.isfile(full_path) and not force_crawl:
-            print("here")
             with open(full_path) as json_data:
                 ranking = json.load(json_data)
                 json_data.close()
