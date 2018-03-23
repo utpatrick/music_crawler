@@ -43,7 +43,6 @@ def mymusic_crawler(date, target='song', cate=Category.ZH_TW, date_format='%Y%m%
         pattern_spliter = re.compile('(.*)[\n\t\r]+(.*)')
         song_name = pattern_spliter.search(raw_data).group(1)
         singer_name = pattern_spliter.search(raw_data).group(2)
-        print(singer_name)
         ranking.append({'artist_name': singer_name, 'song_name': song_name, 'album_name': ''})
 
     # save the raw data to corresponding directory
@@ -78,7 +77,7 @@ def multi_crawler():
 if __name__ == "__main__":
     # multi_crawler()
     start_date = datetime.datetime(2011, 1, 1)
-    end_date = datetime.datetime(2011, 1, 1)
+    end_date = datetime.datetime(2018, 3, 1)
     languages = [Category.ZH_TW, Category.KO_JA, Category.TW, Category.ZH_HK]
     main_crawler(start_date, end_date, crawler=mymusic_crawler, cate=languages,
-                 data_sorting=True, force_crawl=True, get_raw_data=False, date_format='%Y%m%d')
+                 data_sorting=True, force_crawl=False, get_raw_data=False, date_format='%Y%m%d')

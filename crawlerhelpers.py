@@ -127,7 +127,7 @@ def main_crawler(start_date, end_date, crawler, cate, date_format,
 
     for language in languages:
         collections = language_crawler(start_date, end_date, date_format=date_format,
-                                       top_n=50, cate=language, force_crawl=force_crawl,
+                                       top_n=200, cate=language, force_crawl=force_crawl,
                                        crawler=crawler, get_raw_data=get_raw_data, delta=7)
 
         if data_sorting:
@@ -262,8 +262,9 @@ def song_album_trimmer(raw_data, pattern):
     if len(raw_data) == 0:
         return []
     all_songs_albums = []
-    clean_data = raw_data.split("-")
-    clean_data = clean_data[0].split("(")
+    # clean_data = raw_data.split("-")
+    # clean_data = clean_data[0].split("(")
+    clean_data = raw_data.split("(")
     clean_data = clean_data[0].split("【")
     clean_data = clean_data[0].split("（")
     clean_data = clean_data[0].split("、")

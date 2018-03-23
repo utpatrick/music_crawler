@@ -69,7 +69,7 @@ def multi_crawler():
 
 if __name__ == "__main__":
     # multi_crawler()
-    start_date = datetime.datetime(2017, 1, 1)
+    start_date = datetime.datetime(2011, 1, 1)
     end_date = datetime.datetime(2018, 3, 1)
     languages = [Language.ZH_TW, Language.KO, Language.JA, Language.TW, Language.ZH_HK]
     main_crawler(start_date, end_date, crawler=kkbox_crawler, cate=languages,
