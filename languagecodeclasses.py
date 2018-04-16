@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class Language(Enum):
     ZH_TW = 297
     EN = 390
@@ -35,6 +36,19 @@ class Region(Enum):
     hk = 2
     sg = 3
     cn = 4
+
+    def __str__(self):
+        return str(self.value)
+
+
+class LanguageCode(Enum):
+    ZH_TW = 297
+    EN = 390
+    JA = 308
+    KO = 314
+    TW = 304
+    ZH_HK = 320
+    ALL = 999
 
     def __str__(self):
         return str(self.value)

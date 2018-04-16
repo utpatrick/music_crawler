@@ -269,6 +269,7 @@ def song_album_trimmer(raw_data, pattern):
     clean_data = clean_data[0].split("（")
     clean_data = clean_data[0].split("、")
     clean_data = clean_data[0].split("feat")
-    if pattern.search(clean_data[0]) is None:
-        all_songs_albums.append(clean_data[0].strip())
+    # if pattern.search(clean_data[0]) is None:
+    #     all_songs_albums.append(clean_data[0].strip())
+    all_songs_albums.append(clean_data[0].strip())
     return all_songs_albums
