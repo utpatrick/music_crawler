@@ -211,7 +211,7 @@ def checking_duplicate():
 
 
 def count_duplicate(lan_codes=['zh'], DEBUG_MODE=False):
-    data_tw_mega_path = os.path.join('data_manual_clean', 'mega_data', 'zh_TW_feed_song_041018.xlsx')
+    data_tw_mega_path = os.path.join('data_manual_clean', 'mega_data', 'zh_TW_feed_artist_041018.xlsx')
     singer_path = 'singers_ALL_2011-01-01_2018-03-01'
     data_all_singer = os.path.join('data_manual_clean', 'results_cleaning', singer_path)
 
@@ -297,7 +297,7 @@ def count_duplicate(lan_codes=['zh'], DEBUG_MODE=False):
 
 
 def tokenization(sentences):
-    jieba.set_dictionary('data_manual_clean\jieba_dict\dict.txt.big.txt')
+    jieba.set_dictionary('data_manual_clean/jieba_dict/dict.txt.big.txt')
     for sentence in sentences:
         print("Input：", sentence)
         words = jieba.cut(sentence, cut_all=False)
@@ -309,8 +309,7 @@ def tokenization(sentences):
 
 
 data_inputs = ['小酒窩', '帥到分手', '克卜勒', 'hide & seek', 'ego-holic 戀我癖', '王妃', 'outro. 신곡 神曲 divina commedia', '日不落', '志明與春嬌', '觀眾', 'p.s.我愛你', '心牆', '新的心跳', '你啊你啊', '矜持', '金上癮', '你那麼愛她', 'oh my god', '雨愛', '一笑傾城', '说散就散', '嗚哇嗚', '説了再見', '現在我很幸福', '牽心萬苦', '身騎白馬', '一百種孤獨的理由', '傲嬌', '明天再擱來', '當你孤單你會想起誰', '不放', '野子', '手心的薔薇', 'p.s. 我愛你', '丹寧執著', '一千個傷心的理由', '聖誕結', '買榜', '不為誰而作的歌', '偶陣雨', '愛在西元前', '刚好遇见你', '心花開', '那些你很冒险的梦', '魚', '星晴', '人生のメリーゴーランド', '你給我聽好', '淒美地', '艷火', '楓', '覅忒好', '對摺', '甲你攬牢牢', '一千零一個願望', '他舉起右手點名', '十年', '春泥', '在你身邊', '微微一笑很傾城', '一百種生活', '以愛之名', '愛久見人心', '鍊愛', '一步成詩', '光之海', '走著走著就散了', '南山南', 'a.i.n.y.', 'oaoa', '吻得太逼真', '嘻哈庄腳情', '一萬個不回頭的方法', '煙火裡的塵埃', '她說', '淋雨一直走', '我等到花兒也謝了', '回來我身邊', '永不失聯的愛', '成名在望', '明明就', '擱淺', '醉赤壁', '明仔載', '半島鐵盒', '再遇見', '陪妳過假日', '思慕', '爛泥', '踮起腳尖愛', '心的距離', '十年一刻', '美女與野獸', '她說', 'flow', '一坪半', '我心中尚未崩壞的地方', '說散就散', '孤獨的總和', '心裡學', '明仔載', '該忘的日子', '辣台妹', '默', '一路向北', '漂向北方', '新的心跳', '雙截棍', '四點四十四', '啵啦', '知足', '전야 前夜 the eve', '十年', "i'm not yours", '女爵', '賊', '十萬毫升淚水', '修煉愛情', '凉凉', '我醒著做夢', '偷偷的', '她來聽我的演唱會', '凉凉', '逆時光的浪', '歪國人', '餘波盪漾', '手心的薔薇', '姊妹2016', '異類', '屋頂', '來去趴踢', '笑忘歌', '像天堂的懸崖']
-tokenization(data_inputs)
-
+# tokenization(data_inputs)
 
 # this_dict = {"a": ['1','2'], "b":["3","4"], "c": ["5", "6"]}
 # words = "abc"
@@ -326,3 +325,5 @@ tokenization(data_inputs)
 # ['zh', 'en', 'jp', 'kr', 'zh_any']
 # count_duplicate(lan_codes=['zh'], DEBUG_MODE=True)
 # checking_duplicate()
+
+print(match_pattern("I.O.I", dic["en"]))

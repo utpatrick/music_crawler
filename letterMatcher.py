@@ -27,9 +27,9 @@ dic['zh_num'] = [False, True, False, False, True, False]  # zh, nums
 dic['en'] = [True, False, False, False, None, False]  # en, {nums}
 dic['jp'] = [False, False, True, False, None, False]  # jp, {nums}
 dic['kr'] = [False, False, False, True, None, False]  # kr, {nums}
-dic['zh_any'] = [None, True, None, None, None, None]
+dic['zh_en_num'] = [None, True, False, False, None, False]
 
-def match_pattern(data, founds):
+def match_pattern(data, dict_code):
     """
     Check data to match all the patterns.
     :param data: string
@@ -38,20 +38,24 @@ def match_pattern(data, founds):
     :return: boolean
     """
     for i in range(len(patterns)):
-        if founds[i] is None:
+        if dict_code[i] is None:
             continue
-        elif founds[i] != (patterns[i].search(data) is not None):
+        elif dict_code[i] != (patterns[i].search(data) is not None):
             return False
     return True
 
-def pattern_worker(data_inputs, codes):
+def pattern_worker(data_input, codes):
     """
     Check data to match all the patterns.
     :param data_inputs: string array
     :param codes: list of {'zh' | 'zh_num' | 'en' | 'jp' | 'kr'}
     :return: void
     """
+    answer = False
     for code in codes:
-        for data_input in data_inputs:
-            if match_pattern(data_input, dic[code]):
-                print(data_input)
+        answer = answer or match_pattern(data_input, dic[code])
+    return answer
+
+if __name__ == "__main__":
+    nick_name = "Christian Bale – 英文"
+    print(nick_name.split("–")[0].strip())
