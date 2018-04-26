@@ -8,7 +8,7 @@ import os
 
 def read_input(file_path, delimiter):
     # to skip row, add this parameter: skiprows=range(2004, 2005)
-    table = pd.read_csv(file_path, sep="|", header=0, encoding="utf-8", skiprows=range(1, 290))
+    table = pd.read_csv(file_path, sep="|", header=0, encoding="utf-8")
     header = list(table)[0]
     cols = list(x.strip() for x in header.split(delimiter))
     out_table = pd.DataFrame()
