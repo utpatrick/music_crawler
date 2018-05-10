@@ -63,10 +63,75 @@ def file_writer(table, file_path):
     table.to_csv(file_path)
 
 
+def alias_list_creator(store_id_file_path, outfile_path, out_alias_path):
+    id_table = read_input(store_id_file_path, "\t")
+    ref_table = read_input(outfile_path, ",")
+    all_entries = id_table['zh_name'].values.tolist()
+
+    with open(out_alias_path, 'w') as outfile:
+        for entry in all_entries:
+
+            # adding zh_num name to alias list
+            if match_pattern(entry, dic["zh_num"]):
+                this_row = ref_table.loc[ref_table['zh_name'] == entry]
+                if not this_row.empty:
+                    if not this_row['alias'].values[0] and not this_row['en_name'].values[0]:
+                        continue
+                    alias_list = []
+                    alias_col = this_row['alias'].values[0].split(",")
+                    en_name_col = this_row['en_name'].values[0].split(",")
+                    for e in alias_col:
+                        if e:
+                            alias_list.append(e)
+                    for e in en_name_col:
+                        if e:
+                            alias_list.append(e)
+                else:
+                    continue
+                if alias_list:
+                    for i in range(0, len(alias_list)):
+                        alias_list[i] = alias_list[i].replace("\"", "")
+                    alias_collections = " | ".join(alias_list)
+                    print(alias_collections)
+                    outfile.write("\t[ \"from\": \"{}\", \"to\": \" ( {} ) \" ],".format(entry, alias_collections))
+                    outfile.write("\n")
+
+            # adding en name to alias list
+            if match_pattern(entry, dic["en"]):
+                this_row = ref_table.loc[ref_table['en_name'] == entry]
+                if not this_row.empty:
+                    if not this_row['alias'].values[0] and not this_row['zh_name'].values[0]:
+                        continue
+                    alias_list = []
+                    alias_col = this_row['alias'].values[0].split(",")
+                    en_name_col = this_row['zh_name'].values[0].split(",")
+                    for e in alias_col:
+                        if e:
+                            alias_list.append(e)
+                    for e in en_name_col:
+                        if e:
+                            alias_list.append(e)
+                else:
+                    continue
+                if alias_list:
+                    for i in range(0, len(alias_list)):
+                        alias_list[i] = alias_list[i].replace("\"", "")
+                    alias_collections = " | ".join(alias_list)
+                    print(alias_collections)
+                    outfile.write("\t[ \"from\": \"{}\", \"to\": \" ( {} ) \" ],".format(entry, alias_collections))
+                    outfile.write("\n")
+
+    outfile.close()
+
+
 if __name__ == "__main__":
-    file_input = os.path.join("..", "data_manual_clean", "alias_name", "zh-TW_2K_artist_id.txt")
+    file_input = os.path.join("..", "data_manual_clean", "alias_name", "zh-HK_2K_artist_id.txt")
     cn_ref_file_input = os.path.join("..", "data_manual_clean", "alias_name", "top2000_cleand_withAdamId_v1.txt")
     file_output = os.path.join("..", "data_manual_clean", "alias_name", "zh-TW_2K_artist_out.txt")
+    outfile_path = os.path.join("..", "data_manual_clean", "alias_name",
+                                "zh-HK_2K_artist_out.txt")
+    out_alias_path = os.path.join("..", "data_manual_clean", "alias_name",
+                                "zh-HK_2K_artist_out_alias_list.txt")
     table = read_input(file_input, "\t")
     cn_ref_table = read_input(cn_ref_file_input, ",")
     cn_ref_table_size = cn_ref_table.shape[0]
@@ -82,19 +147,21 @@ if __name__ == "__main__":
             en_ref_dict[en_name] = i
 
     zh_names = table['zh_name']
-    target_names, eng_names, nick_names = creating_alias(zh_names, cn_ref_dict, en_ref_dict, cn_ref_table)
-    target_names_se = pd.Series(target_names)
-    eng_names_se = pd.Series(eng_names)
-    nick_names_se = pd.Series(nick_names)
-    temp_table = pd.DataFrame()
-    len = target_names_se.shape[0]
-    temp_table['adamId'] = table['adamId'][0:len]
-    temp_table['zh_name'] = target_names_se.values
-    temp_table['en_name'] = eng_names_se.values
-    temp_table['alias'] = nick_names_se.values
+    # target_names, eng_names, nick_names = creating_alias(zh_names, cn_ref_dict, en_ref_dict, cn_ref_table)
+    # target_names_se = pd.Series(target_names)
+    # eng_names_se = pd.Series(eng_names)
+    # nick_names_se = pd.Series(nick_names)
+    # temp_table = pd.DataFrame()
+    # len = target_names_se.shape[0]
+    # temp_table['adamId'] = table['adamId'][0:len]
+    # temp_table['zh_name'] = target_names_se.values
+    # temp_table['en_name'] = eng_names_se.values
+    # temp_table['alias'] = nick_names_se.values
+    #
+    # print(temp_table.to_string())
+    # file_writer(temp_table, file_output)
 
-    print(temp_table.to_string())
-    file_writer(temp_table, file_output)
+    alias_list_creator(file_input, outfile_path, out_alias_path)
 
 
 

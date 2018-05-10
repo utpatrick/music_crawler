@@ -23,10 +23,10 @@ patterns = [en_pattern, zh_pattern, jp_pattern, kr_pattern, num_pattern, bopo_pa
 
 dic = collections.defaultdict(list)
 dic['zh'] = [False, True, False, False, False, False]  # zh
-dic['zh_num'] = [False, True, False, False, True, False]  # zh, nums
+dic['zh_num'] = [False, True, False, False, None, False]  # zh, nums
 dic['en'] = [True, False, False, False, None, False]  # en, {nums}
-dic['jp'] = [False, False, True, False, None, False]  # jp, {nums}
-dic['kr'] = [False, False, False, True, None, False]  # kr, {nums}
+dic['jp'] = [None, False, True, False, None, False]  # jp, {nums}
+dic['kr'] = [None, False, False, True, None, False]  # kr, {nums}
 dic['zh_en_num'] = [None, True, False, False, None, False]
 
 def match_pattern(data, dict_code):
@@ -53,7 +53,7 @@ def pattern_worker(data_input, codes):
     """
     answer = False
     for code in codes:
-        answer = answer or match_pattern(data_input, dic[code])
+        answer = (answer or match_pattern(data_input, dic[code]))
     return answer
 
 if __name__ == "__main__":
