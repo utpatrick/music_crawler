@@ -147,19 +147,19 @@ if __name__ == "__main__":
             en_ref_dict[en_name] = i
 
     zh_names = table['zh_name']
-    # target_names, eng_names, nick_names = creating_alias(zh_names, cn_ref_dict, en_ref_dict, cn_ref_table)
-    # target_names_se = pd.Series(target_names)
-    # eng_names_se = pd.Series(eng_names)
-    # nick_names_se = pd.Series(nick_names)
-    # temp_table = pd.DataFrame()
-    # len = target_names_se.shape[0]
-    # temp_table['adamId'] = table['adamId'][0:len]
-    # temp_table['zh_name'] = target_names_se.values
-    # temp_table['en_name'] = eng_names_se.values
-    # temp_table['alias'] = nick_names_se.values
-    #
-    # print(temp_table.to_string())
-    # file_writer(temp_table, file_output)
+    target_names, eng_names, nick_names = creating_alias(zh_names, cn_ref_dict, en_ref_dict, cn_ref_table)
+    target_names_se = pd.Series(target_names)
+    eng_names_se = pd.Series(eng_names)
+    nick_names_se = pd.Series(nick_names)
+    temp_table = pd.DataFrame()
+    len = target_names_se.shape[0]
+    temp_table['adamId'] = table['adamId'][0:len]
+    temp_table['zh_name'] = target_names_se.values
+    temp_table['en_name'] = eng_names_se.values
+    temp_table['alias'] = nick_names_se.values
+
+    print(temp_table.to_string())
+    file_writer(temp_table, file_output)
 
     alias_list_creator(file_input, outfile_path, out_alias_path)
 
