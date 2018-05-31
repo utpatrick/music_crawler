@@ -39,3 +39,8 @@ some useful tools for quickly analyze the Mega data
 2. count_duplicate: count Mega data ASR / E2E for different locales
 3. tokenization: trial of tokenization using jieba
 4. counter_cosine_similarity: counting similarity of two data sets
+
+
+# alias_creator.py
+
+tool for creating alias list from wiki using combinations of selenium and wikipedia library
