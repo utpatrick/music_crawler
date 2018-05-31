@@ -27,3 +27,15 @@ Pick / write a customized fundamental crawler and call:
 2. main_crawler(): for data concatention  
 
 ### Data is already downloaded. If you need the raw data, feel free to contact the author.
+
+
+# analyticstools.py
+
+some useful tools for quickly analyze the Mega data
+
+## Current analysis:
+
+1. checking_duplicate: check if data is duplicated in two sources
+2. count_duplicate: count Mega data ASR / E2E for different locales
+3. tokenization: trial of tokenization using jieba
+4. counter_cosine_similarity: counting similarity of two data sets
